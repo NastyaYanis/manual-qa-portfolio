@@ -1,0 +1,245 @@
+{
+  "info": {
+    "_postman_id": "4ab6374c-0eaa-424b-b2f1-096427561cc1",
+    "name": "JSONPlaceholder API Testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "41481882"
+  },
+  "item": [
+    {
+      "name": "GET - Get All Users",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST - Create New User",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Siya Test\",\r\n    \"username\": \"siya_test\",\r\n    \"email\": \"siya@example.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Get User by ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"User ID is 1\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.id).to.eql(1);\r\n});\r\n\r\npm.test(\"User name is correct\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.name).to.eql(\"Leanne Graham\");\r\n});\r\n\r\npm.test(\"User has an email\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data).to.have.property(\"email\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users/1",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Get Non-Existing User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\npm.test(\"Response body is an empty object\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data).to.be.an(\"object\");\r\n    pm.expect(data).to.be.empty;\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users/9999",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users",
+            "9999"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST - Create User Without Email",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"User name is returned\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.name).to.eql(\"Test User\");\r\n});\r\n\r\npm.test(\"Username is returned\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.username).to.eql(\"test_user\");\r\n});\r\n\r\npm.test(\"Email is not returned\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data).to.not.have.property(\"email\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Test User\",\r\n    \"username\": \"test_user\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update an existing user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"User name is updated\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.name).to.eql(\"Siya Updated\");\r\n});\r\n\r\npm.test(\"Username is updated\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.username).to.eql(\"siya_updated\");\r\n});\r\n\r\npm.test(\"Email is updated\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.email).to.eql(\"siya.updated@example.com\");\r\n});\r\n\r\npm.test(\"User ID remains 1\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.id).to.eql(1);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Siya Updated\",\r\n    \"username\": \"siya_updated\",\r\n    \"email\": \"siya.updated@example.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users/1",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PATCH - Update User Email",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Email is updated\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.email).to.eql(\"new.email@example.com\");\r\n});\r\n\r\npm.test(\"User name remains unchanged\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.name).to.eql(\"Leanne Graham\");\r\n});\r\n\r\npm.test(\"Username remains unchanged\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.username).to.eql(\"Bret\");\r\n});\r\n\r\npm.test(\"User ID remains 1\", function () {\r\n    const data = pm.response.json();\r\n    pm.expect(data.id).to.eql(1);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"new.email@example.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users/1",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
